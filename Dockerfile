@@ -1,19 +1,23 @@
-FROM python:3.9-slim as builder
+# Use Python 3.10 as the base image
+FROM python:3.10-slim
 
+# Set the working directory in the container
 WORKDIR /app
 
-COPY requirements.txt /app/
+# Create the log directory
+RUN mkdir -p /root/tracking
 
-RUN pip install --no-cache-dir --prefix=/install -r requirements.txt
+# Copy the requirements file into the container
+COPY requirements.txt .
 
-FROM python:3.9-slim
+# Install the Python dependencies
+RUN pip install --no-cache-dir -r requirements.txt
 
-WORKDIR /app
+# Copy the rest of the application code
+COPY . .
 
-COPY --from=builder /install /usr/local
-
-COPY . /app
-
+# Expose the port your app runs on
 EXPOSE 32222
 
+# Run the script
 CMD ["python", "main.py"]

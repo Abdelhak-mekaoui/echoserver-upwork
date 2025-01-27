@@ -157,7 +157,7 @@ error_logger = setup_logger('error_logger', 'error.log')
 active_streams = deque()
 defined_streams: dict[str, IOStream | None] = {}
 
-REDIS_URL = "redis://localhost"
+REDIS_URL = "redis://redis:6379"
 redis_instance = from_url(REDIS_URL, decode_responses=True)
 
 server = EchoServer()
